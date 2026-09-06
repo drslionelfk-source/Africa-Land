@@ -6,6 +6,11 @@
 <title>Africaland — Actualités et histoire de l'Afrique</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- GOOGLE ADSENSE SCRIPT PRINCIPAL -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
 <style>
   :root{
     --bg:#1b140f;
@@ -43,7 +48,6 @@
   img{max-width:100%;display:block;}
   ::selection{background:var(--gold);color:#1b140f;}
 
-  /* pattern strip used as a recurring structural device, not decoration */
   .kente-rule{
     height:6px;
     background:repeating-linear-gradient(
@@ -56,7 +60,6 @@
     opacity:0.9;
   }
 
-  /* ---------- header ---------- */
   header{
     position:sticky; top:0; z-index:50;
     background:rgba(27,20,15,0.92);
@@ -101,7 +104,6 @@
   .btn-outline:hover{border-color:var(--ink-muted);}
   .menu-toggle{display:none; background:none; border:none; color:var(--ink); font-size:22px;}
 
-  /* ---------- hero ---------- */
   .hero{
     max-width:1180px; margin:0 auto;
     padding:56px 24px 40px;
@@ -148,7 +150,6 @@
   .ticker-item strong{display:block; font-weight:600; margin-bottom:2px;}
   .ticker-item span.meta{color:var(--ink-faint); font-size:12.5px;}
 
-  /* ---------- section shell ---------- */
   section{max-width:1180px; margin:0 auto; padding:52px 24px;}
   .section-head{
     display:flex; align-items:baseline; justify-content:space-between;
@@ -159,7 +160,15 @@
   .section-head h2{font-size:28px;}
   .section-head p{color:var(--ink-faint); font-size:14px; max-width:44ch;}
 
-  /* ---------- filter pills (horizontal) ---------- */
+  /* Style pour les conteneurs de publicité AdSense */
+  .ad-banner-container {
+    max-width: 1180px;
+    margin: 20px auto;
+    padding: 0 24px;
+    text-align: center;
+    overflow: hidden;
+  }
+
   .filter-row{
     display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px;
   }
@@ -175,7 +184,6 @@
   .pill:hover{border-color:var(--ink-muted); color:var(--ink);}
   .pill.active{background:var(--gold); color:#1b140f; border-color:var(--gold);}
 
-  /* ---------- news grid ---------- */
   .news-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
   .news-card{
     background:var(--bg-card);
@@ -226,7 +234,6 @@
   }
   .read-original:hover{color:#e8b558; text-decoration:underline;}
 
-  /* ---------- countries ---------- */
   .region-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
   .region-tab{
     padding:7px 14px; font-size:13px; border-radius:var(--radius-s);
@@ -244,7 +251,6 @@
   .country-card h4{font-size:15.5px; font-family:'Work Sans',sans-serif; font-weight:600;}
   .country-card .cap{font-size:12px; color:var(--ink-faint);}
 
-  /* ---------- country detail panel ---------- */
   .overlay{
     position:fixed; inset:0; background:rgba(10,7,5,0.72);
     display:none; align-items:flex-start; justify-content:center;
@@ -289,7 +295,6 @@
     display:flex; align-items:center; justify-content:center;
   }
 
-  /* ---------- pricing ---------- */
   .region-toggle{
     display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:4px; margin-bottom:8px;
   }
@@ -325,7 +330,6 @@
   .switch.on{background:var(--gold);}
   .switch.on::after{left:19px; background:#1b140f;}
 
-  /* preferences filter (subscription onboarding) */
   .pref-block{
     background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-m);
     padding:24px; margin-top:28px;
@@ -387,6 +391,19 @@
   </div>
 </div>
 
+<!-- PUBLICITÉ GOOGLE ADSENSE (Banière sous le Hero) -->
+<div class="ad-banner-container">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="1234567890"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
 <section id="actualites">
   <div class="section-head">
     <div>
@@ -403,6 +420,19 @@
   </div>
   <div class="news-grid" id="newsGrid"></div>
 </section>
+
+<!-- PUBLICITÉ GOOGLE ADSENSE (Banière entre Actualités et Pays) -->
+<div class="ad-banner-container">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="1234567890"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 
 <section id="pays">
   <div class="section-head">
@@ -487,6 +517,20 @@
     <div class="detail-body">
       <h5 data-i18n="detailHistTitle">Histoire</h5>
       <div class="timeline" id="dHistory"></div>
+
+      <!-- PUBLICITÉ GOOGLE ADSENSE (Bannière à l'intérieur de la fenêtre modale) -->
+      <div style="margin: 20px 0; text-align: center;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
       <h5 data-i18n="detailNewsTitle">Actualités locales (exemples)</h5>
       <div id="dNews"></div>
     </div>
@@ -510,7 +554,7 @@ const dict = {
     toggleAfrica:"Résidents en Afrique", toggleIntl:"Hors Afrique",
     pricingNote:"Détecté via votre position — modifiable à tout moment.",
     freeName:"GRATUIT", freeCadence:"Toujours gratuit",
-    freeF1:"Accès aux fiches pays et à l'histoire", freeF2:"Actualités des journaux locaux, avec publicités", freeF3:"3 filtres de préférence au choix",
+    freeF1:"Accès aux fiches pays et à l'histoire", freeF2:"Actualités des journaux locaux, avec publicités", freeF3:"3 filtres de preference au choix",
     premName:"PREMIUM", premCadence:"Facturation mensuelle, sans engagement", perMonth:"/ mois",
     premF1:"Tout le contenu gratuit, sans publicité", premF2:"Notifications d'actualités en direct sur votre téléphone",
     premF3:"Préférences illimitées et résumés automatiques traduits", premF4:"Accès aux archives historiques complètes",
