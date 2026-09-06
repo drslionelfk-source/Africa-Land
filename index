@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Africaland — Actualités et histoire de l'Afrique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1b140f;
+    --bg-elevated:#241a13;
+    --bg-card:#2a1f16;
+    --line: rgba(243,233,217,0.12);
+    --gold:#d9a441;
+    --gold-soft:#b3843a;
+    --indigo:#3a5a86;
+    --clay:#a6553b;
+    --ink:#f3e9d9;
+    --ink-muted:#c9b8a0;
+    --ink-faint:#8f7d68;
+    --radius-s:2px;
+    --radius-m:6px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{
+    font-family:'Newsreader', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--gold);color:#1b140f;}
+
+  /* pattern strip used as a recurring structural device, not decoration */
+  .kente-rule{
+    height:6px;
+    background:repeating-linear-gradient(
+      90deg,
+      var(--gold) 0px, var(--gold) 18px,
+      var(--clay) 18px, var(--clay) 26px,
+      var(--indigo) 26px, var(--indigo) 44px,
+      transparent 44px, transparent 52px
+    );
+    opacity:0.9;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(27,20,15,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-wrap{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+    gap:16px;
+  }
+  .logo{
+    font-family:'Newsreader', serif;
+    font-size:24px; font-weight:700;
+    display:flex; align-items:baseline; gap:2px;
+  }
+  .logo em{font-style:normal; color:var(--gold);}
+  nav.primary-nav{display:flex; gap:28px; font-size:14.5px;}
+  nav.primary-nav a{color:var(--ink-muted); transition:color .15s;}
+  nav.primary-nav a:hover{color:var(--ink);}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  select#langSelect{
+    background:var(--bg-elevated);
+    color:var(--ink);
+    border:1px solid var(--line);
+    border-radius:var(--radius-s);
+    padding:7px 10px;
+    font-size:13.5px;
+    font-family:inherit;
+  }
+  .btn{
+    display:inline-block;
+    padding:9px 18px;
+    border-radius:var(--radius-s);
+    font-size:14px; font-weight:600;
+    border:1px solid transparent;
+  }
+  .btn-gold{background:var(--gold); color:#1b140f;}
+  .btn-gold:hover{background:#e8b558;}
+  .btn-outline{border-color:var(--line); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--ink-muted);}
+  .menu-toggle{display:none; background:none; border:none; color:var(--ink); font-size:22px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:1180px; margin:0 auto;
+    padding:56px 24px 40px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px;
+    align-items:end;
+  }
+  .hero-eyebrow{
+    font-size:13px; color:var(--gold); font-weight:600;
+    margin-bottom:14px; display:block;
+  }
+  .hero h1{
+    font-size:clamp(36px, 5vw, 58px);
+    line-height:1.04;
+    margin-bottom:18px;
+  }
+  .hero p.lede{
+    color:var(--ink-muted); font-size:17px; max-width:46ch; margin-bottom:26px;
+  }
+  .hero-actions{display:flex; gap:12px;}
+  .hero-side{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    padding:22px;
+  }
+  .hero-side h3{font-size:14px; color:var(--ink-faint); font-weight:600; margin-bottom:14px;}
+  .ticker-item{
+    display:flex; gap:12px; padding:12px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .ticker-item:last-child{border-bottom:none; padding-bottom:0;}
+  .ticker-thumb{
+    width:44px; height:44px; border-radius:var(--radius-s); flex-shrink:0;
+    position:relative; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ticker-thumb svg{width:22px; height:22px; color:var(--ink); opacity:.9;}
+  .ticker-thumb .mini-flag{
+    position:absolute; bottom:1px; right:1px; font-size:11px;
+    background:rgba(27,20,15,.85); border-radius:50%; width:16px; height:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ticker-item strong{display:block; font-weight:600; margin-bottom:2px;}
+  .ticker-item span.meta{color:var(--ink-faint); font-size:12.5px;}
+
+  /* ---------- section shell ---------- */
+  section{max-width:1180px; margin:0 auto; padding:52px 24px;}
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:28px; flex-wrap:wrap; gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+  }
+  .section-head h2{font-size:28px;}
+  .section-head p{color:var(--ink-faint); font-size:14px; max-width:44ch;}
+
+  /* ---------- filter pills (horizontal) ---------- */
+  .filter-row{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px;
+  }
+  .pill{
+    padding:8px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink-muted);
+    font-size:13.5px; font-weight:500;
+    transition:all .15s;
+  }
+  .pill:hover{border-color:var(--ink-muted); color:var(--ink);}
+  .pill.active{background:var(--gold); color:#1b140f; border-color:var(--gold);}
+
+  /* ---------- news grid ---------- */
+  .news-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+  .news-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .news-card .card-body{padding:18px 20px 20px; display:flex; flex-direction:column; gap:10px;}
+  .card-image{
+    height:150px; position:relative;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card-image svg{ width:64px; height:64px; color:var(--ink); opacity:.85; position:relative; z-index:1; }
+  .card-image .cat-tag{position:absolute; top:10px; left:10px; z-index:2;}
+  .card-image .flag-badge{
+    position:absolute; bottom:10px; right:10px; z-index:2;
+    width:30px; height:30px; border-radius:50%;
+    background:var(--bg-elevated); border:1px solid rgba(255,255,255,.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; box-shadow:0 2px 6px rgba(0,0,0,.4);
+  }
+  .card-image::before{
+    content:""; position:absolute; inset:0; opacity:.16; z-index:0;
+    background:repeating-linear-gradient(115deg, #fff 0px, #fff 2px, transparent 2px, transparent 22px);
+  }
+  .img-actualite{background:linear-gradient(135deg, var(--indigo), #223349);}
+  .img-documentation{background:linear-gradient(135deg, var(--clay), #5e3020);}
+  .img-innovation{background:linear-gradient(135deg, var(--gold), #8a6423);}
+  .img-histoire{background:linear-gradient(135deg, #6b5738, #2c2318);}
+  .news-card .tag-row{display:flex; justify-content:space-between; align-items:center;}
+  .cat-tag{
+    font-size:11px; font-weight:600; letter-spacing:0.02em;
+    padding:3px 9px; border-radius:999px;
+  }
+  .cat-actualite{background:rgba(58,90,134,.35); color:#a9c2e0;}
+  .cat-documentation{background:rgba(166,85,59,.35); color:#e3ab97;}
+  .cat-innovation{background:rgba(217,164,65,.28); color:#f0cd8a;}
+  .cat-histoire{background:rgba(143,125,104,.3); color:var(--ink-muted);}
+  .news-card h3{font-size:17px; line-height:1.3;}
+  .news-card .source-line{font-size:12.5px; color:var(--ink-faint); display:flex; gap:6px; align-items:center;}
+  .ai-summary{font-size:13.5px; color:var(--ink-muted); line-height:1.55; margin:0;}
+  .ai-summary::before{content:"✦ "; color:var(--gold);}
+  .read-original{
+    margin-top:4px; font-size:13px; font-weight:600; color:var(--gold);
+    border-top:1px solid var(--line); padding-top:12px;
+  }
+  .read-original:hover{color:#e8b558; text-decoration:underline;}
+
+  /* ---------- countries ---------- */
+  .region-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
+  .region-tab{
+    padding:7px 14px; font-size:13px; border-radius:var(--radius-s);
+    border:1px solid var(--line); color:var(--ink-faint);
+  }
+  .region-tab.active{border-color:var(--gold); color:var(--gold);}
+  .country-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:14px;}
+  .country-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:16px; text-align:left; display:flex; flex-direction:column; gap:8px;
+    transition:border-color .15s, transform .15s;
+  }
+  .country-card:hover{border-color:var(--gold-soft); transform:translateY(-2px);}
+  .country-card .flag{font-size:28px;}
+  .country-card h4{font-size:15.5px; font-family:'Work Sans',sans-serif; font-weight:600;}
+  .country-card .cap{font-size:12px; color:var(--ink-faint);}
+
+  /* ---------- country detail panel ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(10,7,5,0.72);
+    display:none; align-items:flex-start; justify-content:center;
+    padding:40px 20px; z-index:100; overflow-y:auto;
+  }
+  .overlay.open{display:flex;}
+  .detail-panel{
+    background:var(--bg-elevated); border:1px solid var(--line);
+    border-radius:var(--radius-m); max-width:680px; width:100%;
+    padding:0; overflow:hidden;
+  }
+  .detail-top{padding:28px 28px 0;}
+  .detail-close{float:right; background:none; border:none; color:var(--ink-faint); font-size:22px;}
+  .detail-flag{font-size:44px; margin-bottom:10px;}
+  .detail-panel h2{font-size:30px; margin-bottom:4px;}
+  .detail-meta{color:var(--ink-faint); font-size:13.5px; margin-bottom:20px;}
+  .detail-body{padding:0 28px 28px;}
+  .detail-body h5{font-size:12.5px; text-transform:none; color:var(--gold); font-weight:600; margin:22px 0 8px;}
+  .detail-body p{color:var(--ink-muted); font-size:15px; line-height:1.65;}
+  .timeline{position:relative; padding-left:22px; margin-top:6px;}
+  .timeline::before{content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line);}
+  .timeline-item{position:relative; padding-bottom:20px;}
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-item::before{
+    content:""; position:absolute; left:-22px; top:4px; width:12px; height:12px;
+    border-radius:50%; background:var(--gold); border:2px solid var(--bg-elevated);
+  }
+  .timeline-item .tl-period{font-size:12.5px; font-weight:600; color:var(--gold); margin-bottom:4px; display:block;}
+  .timeline-item p{margin:0; font-size:14.5px;}
+  .detail-news-item{
+    border-top:1px solid var(--line); padding:14px 0; font-size:14px;
+    display:flex; gap:14px;
+  }
+  .detail-news-thumb{
+    width:76px; height:76px; border-radius:var(--radius-s); flex-shrink:0; position:relative; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .detail-news-thumb svg{width:34px; height:34px; color:var(--ink); opacity:.9;}
+  .detail-news-thumb .mini-flag{
+    position:absolute; bottom:2px; right:2px; font-size:12px;
+    background:rgba(27,20,15,.85); border-radius:50%; width:18px; height:18px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---------- pricing ---------- */
+  .region-toggle{
+    display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:4px; margin-bottom:8px;
+  }
+  .region-toggle button{
+    background:none; border:none; color:var(--ink-faint); padding:8px 18px; border-radius:999px; font-size:13.5px; font-weight:600;
+  }
+  .region-toggle button.active{background:var(--gold); color:#1b140f;}
+  .pricing-note{font-size:12.5px; color:var(--ink-faint); margin-bottom:32px;}
+  .plans{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .plan-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:28px;
+  }
+  .plan-card.premium{border-color:var(--gold);}
+  .plan-name{font-size:13px; color:var(--ink-faint); font-weight:600; margin-bottom:10px;}
+  .plan-price{font-family:'Newsreader', serif; font-size:40px; margin-bottom:4px;}
+  .plan-price span{font-size:15px; color:var(--ink-faint); font-family:'Work Sans', sans-serif;}
+  .plan-cadence{font-size:13px; color:var(--ink-faint); margin-bottom:20px;}
+  .plan-features{list-style:none; padding:0; margin:0 0 24px; display:flex; flex-direction:column; gap:11px;}
+  .plan-features li{font-size:14px; color:var(--ink-muted); display:flex; gap:10px;}
+  .plan-features li .dot{color:var(--gold); flex-shrink:0;}
+  .push-demo{
+    margin-top:18px; padding:14px; background:var(--bg-elevated); border-radius:var(--radius-s);
+    display:flex; align-items:center; justify-content:space-between; font-size:13.5px;
+  }
+  .switch{
+    width:38px; height:22px; background:var(--line); border-radius:999px; position:relative; border:none; flex-shrink:0;
+  }
+  .switch::after{
+    content:''; position:absolute; width:16px; height:16px; background:var(--ink-faint);
+    border-radius:50%; top:3px; left:3px; transition:all .18s;
+  }
+  .switch.on{background:var(--gold);}
+  .switch.on::after{left:19px; background:#1b140f;}
+
+  /* preferences filter (subscription onboarding) */
+  .pref-block{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:24px; margin-top:28px;
+  }
+  .pref-block h4{font-size:15px; margin-bottom:4px;}
+  .pref-block p{font-size:13.5px; color:var(--ink-faint); margin:0 0 16px;}
+
+  footer{border-top:1px solid var(--line); padding:40px 24px; margin-top:40px;}
+  .footer-inner{max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:13px; color:var(--ink-faint);}
+
+  @media (max-width:860px){
+    nav.primary-nav{display:none;}
+    .menu-toggle{display:block;}
+    .hero{grid-template-columns:1fr;}
+    .news-grid{grid-template-columns:1fr 1fr;}
+    .country-grid{grid-template-columns:repeat(2,1fr);}
+    .plans{grid-template-columns:1fr;}
+  }
+  @media (max-width:520px){
+    .news-grid{grid-template-columns:1fr;}
+    .country-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo" data-i18n="logo"><em>Africa</em>land</div>
+    <nav class="primary-nav">
+      <a href="#actualites" data-i18n="nav1">Actualités</a>
+      <a href="#pays" data-i18n="nav2">Pays &amp; Histoire</a>
+      <a href="#abonnement" data-i18n="nav3">Abonnement</a>
+    </nav>
+    <div class="nav-right">
+      <select id="langSelect" onchange="setLang(this.value)">
+        <option value="fr">🌍 Français</option>
+        <option value="en">🌍 English</option>
+      </select>
+      <a href="#abonnement" class="btn btn-gold" data-i18n="navCta">S'abonner</a>
+    </div>
+  </div>
+  <div class="kente-rule"></div>
+</header>
+
+<div class="hero">
+  <div>
+    <span class="hero-eyebrow" data-i18n="heroEyebrow">54 pays, une seule plateforme</span>
+    <h1 data-i18n="heroTitle">L'actualité et l'histoire de l'Afrique, racontées pays par pays.</h1>
+    <p class="lede" data-i18n="heroLede">Africaland réunit les journaux locaux et l'histoire de chaque pays du continent en un seul endroit, dans la langue de chaque lecteur.</p>
+    <div class="hero-actions">
+      <a href="#pays" class="btn btn-gold" data-i18n="heroBtn1">Explorer les pays</a>
+      <a href="#abonnement" class="btn btn-outline" data-i18n="heroBtn2">Voir les abonnements</a>
+    </div>
+  </div>
+  <div class="hero-side">
+    <h3 data-i18n="tickerTitle">À la une en ce moment</h3>
+    <div id="tickerList"></div>
+  </div>
+</div>
+
+<section id="actualites">
+  <div class="section-head">
+    <div>
+      <h2 data-i18n="newsTitle">Actualités du continent</h2>
+      <p data-i18n="newsSub">Filtrez par type de contenu — les résumés s'adaptent à la langue de chaque pays.</p>
+    </div>
+  </div>
+  <div class="filter-row" id="newsFilters">
+    <button class="pill active" data-cat="all" data-i18n="filterAll">Tout</button>
+    <button class="pill" data-cat="actualite" data-i18n="filterActu">Actualité</button>
+    <button class="pill" data-cat="documentation" data-i18n="filterDoc">Documentation</button>
+    <button class="pill" data-cat="innovation" data-i18n="filterInno">Innovation</button>
+    <button class="pill" data-cat="histoire" data-i18n="filterHist">Histoire</button>
+  </div>
+  <div class="news-grid" id="newsGrid"></div>
+</section>
+
+<section id="pays">
+  <div class="section-head">
+    <div>
+      <h2 data-i18n="countriesTitle">Pays &amp; histoire</h2>
+      <p data-i18n="countriesSub">Cliquez sur un pays pour lire son histoire et ses actualités locales.</p>
+    </div>
+  </div>
+  <div class="region-tabs" id="regionTabs"></div>
+  <div class="country-grid" id="countryGrid"></div>
+</section>
+
+<section id="abonnement">
+  <div class="section-head">
+    <div>
+      <h2 data-i18n="pricingTitle">Abonnement</h2>
+      <p data-i18n="pricingSub">Un tarif adapté à votre localisation, détecté automatiquement.</p>
+    </div>
+  </div>
+
+  <div class="region-toggle" id="regionToggle">
+    <button class="active" data-region="africa" data-i18n="toggleAfrica">Résidents en Afrique</button>
+    <button data-region="intl" data-i18n="toggleIntl">Hors Afrique</button>
+  </div>
+  <div class="pricing-note" data-i18n="pricingNote">Détecté via votre position — modifiable à tout moment.</div>
+
+  <div class="plans">
+    <div class="plan-card">
+      <div class="plan-name" data-i18n="freeName">GRATUIT</div>
+      <div class="plan-price">0<span> <span id="freeCurrency">FCFA</span></span></div>
+      <div class="plan-cadence" data-i18n="freeCadence">Toujours gratuit</div>
+      <ul class="plan-features">
+        <li><span class="dot">✓</span><span data-i18n="freeF1">Accès aux fiches pays et à l'histoire</span></li>
+        <li><span class="dot">✓</span><span data-i18n="freeF2">Actualités des journaux locaux, avec publicités</span></li>
+        <li><span class="dot">✓</span><span data-i18n="freeF3">3 filtres de préférence au choix</span></li>
+      </ul>
+    </div>
+    <div class="plan-card premium">
+      <div class="plan-name" style="color:var(--gold)" data-i18n="premName">PREMIUM</div>
+      <div class="plan-price"><span id="premPrice">200</span><span> <span id="premCurrency">FCFA</span> <span data-i18n="perMonth">/ mois</span></span></div>
+      <div class="plan-cadence" data-i18n="premCadence">Facturation mensuelle, sans engagement</div>
+      <ul class="plan-features">
+        <li><span class="dot">✓</span><span data-i18n="premF1">Tout le contenu gratuit, sans publicité</span></li>
+        <li><span class="dot">✓</span><span data-i18n="premF2">Notifications d'actualités en direct sur votre téléphone</span></li>
+        <li><span class="dot">✓</span><span data-i18n="premF3">Préférences illimitées et résumés automatiques traduits</span></li>
+        <li><span class="dot">✓</span><span data-i18n="premF4">Accès aux archives historiques complètes</span></li>
+      </ul>
+      <div class="push-demo">
+        <span data-i18n="pushLabel">Recevoir les actualités sur mon téléphone</span>
+        <button class="switch" id="pushSwitch" onclick="this.classList.toggle('on')"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pref-block">
+    <h4 data-i18n="prefTitle">Vos préférences de contenu</h4>
+    <p data-i18n="prefSub">Choisissez ce que vous voulez voir en priorité — vous pourrez changer à tout moment.</p>
+    <div class="filter-row" id="prefFilters">
+      <button class="pill active" data-pref="actualite" data-i18n="filterActu">Actualité</button>
+      <button class="pill active" data-pref="documentation" data-i18n="filterDoc">Documentation</button>
+      <button class="pill" data-pref="innovation" data-i18n="filterInno">Innovation</button>
+      <button class="pill" data-pref="histoire" data-i18n="filterHist">Histoire</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>Africaland</strong> — <span data-i18n="footerTag">l'actualité et l'histoire de l'Afrique, pays par pays.</span></div>
+    <div>Prototype de démonstration — © 2026</div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this) closeDetail()">
+  <div class="detail-panel">
+    <div class="detail-top">
+      <button class="detail-close" onclick="closeDetail()">×</button>
+      <div class="detail-flag" id="dFlag"></div>
+      <h2 id="dName"></h2>
+      <div class="detail-meta" id="dMeta"></div>
+    </div>
+    <div class="detail-body">
+      <h5 data-i18n="detailHistTitle">Histoire</h5>
+      <div class="timeline" id="dHistory"></div>
+      <h5 data-i18n="detailNewsTitle">Actualités locales (exemples)</h5>
+      <div id="dNews"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------- i18n ---------------- */
+const dict = {
+  fr:{
+    logo:"Africaland", nav1:"Actualités", nav2:"Pays & Histoire", nav3:"Abonnement", navCta:"S'abonner",
+    heroEyebrow:"54 pays, une seule plateforme",
+    heroTitle:"L'actualité et l'histoire de l'Afrique, racontées pays par pays.",
+    heroLede:"Africaland réunit les journaux locaux et l'histoire de chaque pays du continent en un seul endroit, dans la langue de chaque lecteur.",
+    heroBtn1:"Explorer les pays", heroBtn2:"Voir les abonnements",
+    tickerTitle:"À la une en ce moment",
+    newsTitle:"Actualités du continent", newsSub:"Résumés générés automatiquement à partir des journaux locaux — cliquez pour lire l'article complet sur le site d'origine.",
+    filterAll:"Tout", filterActu:"Actualité", filterDoc:"Documentation", filterInno:"Innovation", filterHist:"Histoire",
+    countriesTitle:"Pays & histoire", countriesSub:"Cliquez sur un pays pour lire son histoire et ses actualités locales.",
+    pricingTitle:"Abonnement", pricingSub:"Un tarif adapté à votre localisation, détecté automatiquement.",
+    toggleAfrica:"Résidents en Afrique", toggleIntl:"Hors Afrique",
+    pricingNote:"Détecté via votre position — modifiable à tout moment.",
+    freeName:"GRATUIT", freeCadence:"Toujours gratuit",
+    freeF1:"Accès aux fiches pays et à l'histoire", freeF2:"Actualités des journaux locaux, avec publicités", freeF3:"3 filtres de préférence au choix",
+    premName:"PREMIUM", premCadence:"Facturation mensuelle, sans engagement", perMonth:"/ mois",
+    premF1:"Tout le contenu gratuit, sans publicité", premF2:"Notifications d'actualités en direct sur votre téléphone",
+    premF3:"Préférences illimitées et résumés automatiques traduits", premF4:"Accès aux archives historiques complètes",
+    pushLabel:"Recevoir les actualités sur mon téléphone",
+    prefTitle:"Vos préférences de contenu", prefSub:"Choisissez ce que vous voulez voir en priorité — vous pourrez changer à tout moment.",
+    footerTag:"l'actualité et l'histoire de l'Afrique, pays par pays.",
+    detailHistTitle:"Histoire", detailNewsTitle:"Actualités locales (exemples)",
+    capitalLabel:"Capitale", langLabel:"Langue", readFull:"Lire l'article complet"
+  },
+  en:{
+    logo:"Africaland", nav1:"News", nav2:"Countries & History", nav3:"Subscription", navCta:"Subscribe",
+    heroEyebrow:"54 countries, one platform",
+    heroTitle:"African news and history, told country by country.",
+    heroLede:"Africaland brings together local newspapers and each country's history in one place, in every reader's own language.",
+    heroBtn1:"Explore countries", heroBtn2:"See plans",
+    tickerTitle:"Trending right now",
+    newsTitle:"News from the continent", newsSub:"Summaries auto-generated from local newspapers — click through to read the full article on the original site.",
+    filterAll:"All", filterActu:"News", filterDoc:"Documentation", filterInno:"Innovation", filterHist:"History",
+    countriesTitle:"Countries & history", countriesSub:"Click a country to read its history and local news.",
+    pricingTitle:"Subscription", pricingSub:"Pricing adapted to your location, detected automatically.",
+    toggleAfrica:"Residents in Africa", toggleIntl:"Outside Africa",
+    pricingNote:"Detected from your location — changeable anytime.",
+    freeName:"FREE", freeCadence:"Always free",
+    freeF1:"Access to country pages and history", freeF2:"Local newspaper news, with ads", freeF3:"3 preference filters",
+    premName:"PREMIUM", premCadence:"Billed monthly, no commitment", perMonth:"/ month",
+    premF1:"All free content, ad-free", premF2:"Live news notifications on your phone",
+    premF3:"Unlimited preferences and auto-translated summaries", premF4:"Full historical archive access",
+    pushLabel:"Send news to my phone",
+    prefTitle:"Your content preferences", prefSub:"Choose what you want to see first — you can change this anytime.",
+    footerTag:"African news and history, country by country.",
+    detailHistTitle:"History", detailNewsTitle:"Local news (examples)",
+    capitalLabel:"Capital", langLabel:"Language", readFull:"Read the full article"
+  }
+};
+let currentLang = "fr";
+function setLang(l){
+  currentLang = l;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(dict[l][key]) el.textContent = dict[l][key];
+  });
+  renderNews(); renderCountries();
+}
+
+/* ---------------- pricing region toggle ---------------- */
+document.querySelectorAll("#regionToggle button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("#regionToggle button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const isAfrica = btn.dataset.region === "africa";
+    document.getElementById("premPrice").textContent = isAfrica ? "200" : "10";
+    document.getElementById("premCurrency").textContent = isAfrica ? "FCFA" : "€";
+    document.getElementById("freeCurrency").textContent = isAfrica ? "FCFA" : "€";
+  });
+});
+
+/* ---------------- preference pills (multi-select) ---------------- */
+document.querySelectorAll("#prefFilters .pill").forEach(p=>{
+  p.addEventListener("click", ()=>p.classList.toggle("active"));
+});
+
+/* ---------------- country + news data ---------------- */
+const countries = [
+  {id:"senegal", region:"ouest", flag:"🇸🇳", name:"Sénégal", nameEn:"Senegal", capital:"Dakar", lang:"Français",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le territoire actuel du Sénégal a vu se développer des royaumes comme le Djolof et le Cayor, ainsi que des comptoirs commerciaux le long de la côte atlantique dès le XVe siècle.", textEn:"Kingdoms such as Djolof and Cayor developed here, alongside Atlantic trading posts from the 15th century onward."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"L'île de Gorée devient l'un des points majeurs de la traite négrière transatlantique organisée par les puissances européennes, avant que la France n'établisse sa colonie du Sénégal au XIXe siècle.", textEn:"Gorée Island became a major hub of the transatlantic slave trade organized by European powers, before France established its Senegal colony in the 19th century."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Des tirailleurs sénégalais combattent aux côtés de la France lors des deux guerres mondiales ; le pays accède à l'indépendance en 1960, en pleine guerre froide, sous la présidence de Léopold Sédar Senghor.", textEn:"Senegalese riflemen fought alongside France in both World Wars; the country gained independence in 1960, amid the Cold War, under Léopold Sédar Senghor."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Le Sénégal connaît depuis une relative stabilité politique et plusieurs alternances démocratiques, tout en jouant un rôle culturel majeur dans la Francophonie et le monde ouest-africain.", textEn:"Senegal has since enjoyed relative political stability and several democratic transitions, while playing a major cultural role in the Francophone world."}]},
+  {id:"nigeria", region:"ouest", flag:"🇳🇬", name:"Nigeria", nameEn:"Nigeria", capital:"Abuja", lang:"Anglais",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Avant la colonisation, la région abrite des royaumes et empires puissants comme le Bénin, le Sokoto et Oyo, reconnus pour leur organisation politique et leur art.", textEn:"Powerful kingdoms and empires such as Benin, Sokoto and Oyo flourished here, known for their political organization and art."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Le Nigeria devient une colonie britannique unifiée en 1914, dans un contexte où les puissances européennes se partagent le continent lors de la conférence de Berlin (1884-85).", textEn:"Nigeria became a unified British colony in 1914, as European powers divided up the continent following the Berlin Conference (1884-85)."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Des soldats nigérians participent aux deux guerres mondiales sous commandement britannique ; le pays obtient son indépendance en 1960, en pleine période de décolonisation mondiale.", textEn:"Nigerian soldiers served in both World Wars under British command; the country gained independence in 1960, during the wider wave of global decolonization."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Après une guerre civile marquante (Biafra, 1967-1970), le Nigeria devient la première puissance économique et le pays le plus peuplé d'Afrique.", textEn:"After a devastating civil war (Biafra, 1967-1970), Nigeria became Africa's largest economy and most populous nation."}]},
+  {id:"cotedivoire", region:"ouest", flag:"🇨🇮", name:"Côte d'Ivoire", nameEn:"Ivory Coast", capital:"Yamoussoukro", lang:"Français",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le territoire ivoirien est historiquement peuplé de royaumes comme celui de Kong et de Baoulé, actifs dans le commerce transsaharien puis atlantique.", textEn:"The territory was historically home to kingdoms such as Kong and the Baoulé, active in trans-Saharan and later Atlantic trade."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"La France en fait une colonie à la fin du XIXe siècle, l'intégrant à l'Afrique-Occidentale française, dans le cadre de la colonisation européenne du continent.", textEn:"France made it a colony in the late 19th century, part of French West Africa, within Europe's broader colonization of the continent."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Le pays participe à l'effort de guerre français lors des deux conflits mondiaux avant d'accéder à l'indépendance en 1960 sous Félix Houphouët-Boigny.", textEn:"The country contributed to the French war effort in both World Wars before gaining independence in 1960 under Félix Houphouët-Boigny."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Longtemps citée en exemple pour sa croissance liée au cacao, la Côte d'Ivoire traverse aussi des crises politiques marquantes dans les années 2000 avant de retrouver une stabilité relative.", textEn:"Long praised for its cocoa-driven growth, Ivory Coast also went through serious political crises in the 2000s before regaining relative stability."}]},
+  {id:"ghana", region:"ouest", flag:"🇬🇭", name:"Ghana", nameEn:"Ghana", capital:"Accra", lang:"Anglais",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"L'ancien empire du Ghana (dont le pays actuel tire son nom) puis le royaume Ashanti dominent la région, réputée pour son commerce de l'or.", textEn:"The ancient Ghana Empire (which lent the modern country its name) and later the Ashanti Kingdom dominated the region, renowned for its gold trade."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"La côte devient un haut lieu de la traite négrière atlantique ; les Britanniques y établissent la Gold Coast, colonie d'où transitent or, esclaves puis cacao.", textEn:"The coast became a major hub of the Atlantic slave trade; the British established the Gold Coast colony, through which gold, enslaved people and later cocoa passed."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Après avoir fourni des troupes lors des guerres mondiales, le Ghana devient en 1957 le premier pays d'Afrique subsaharienne indépendant, sous Kwame Nkrumah, figure du panafricanisme en pleine guerre froide.", textEn:"After supplying troops in both World Wars, Ghana became sub-Saharan Africa's first independent country in 1957 under Kwame Nkrumah, a Pan-Africanist figure of the Cold War era."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Le pays connaît plusieurs coups d'État avant de s'imposer, depuis les années 1990, comme l'une des démocraties les plus stables d'Afrique de l'Ouest.", textEn:"The country experienced several coups before becoming, since the 1990s, one of West Africa's most stable democracies."}]},
+  {id:"mali", region:"ouest", flag:"🇲🇱", name:"Mali", nameEn:"Mali", capital:"Bamako", lang:"Français",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Héritier du puissant Empire du Mali médiéval (XIIIe-XVe siècle) et de la cité savante de Tombouctou, le territoire fut un centre majeur du commerce transsaharien et du savoir islamique.", textEn:"Heir to the powerful medieval Mali Empire (13th-15th century) and the scholarly city of Timbuktu, the territory was a major center of trans-Saharan trade and Islamic learning."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Conquis par la France à la fin du XIXe siècle, le Mali est intégré à l'Afrique-Occidentale française durant la période coloniale.", textEn:"Conquered by France in the late 19th century, Mali was incorporated into French West Africa during the colonial period."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Indépendant en 1960 en pleine décolonisation, le pays s'oriente un temps vers le socialisme, dans le contexte des alliances de la guerre froide.", textEn:"Independent in 1960 amid decolonization, the country briefly leaned toward socialism within the context of Cold War alliances."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Le Mali fait face depuis les années 2010 à une instabilité sécuritaire dans le nord de son territoire, tout en préservant un riche patrimoine culturel.", textEn:"Since the 2010s, Mali has faced security instability in its northern territory, while preserving a rich cultural heritage."}]},
+  {id:"egypte", region:"nord", flag:"🇪🇬", name:"Égypte", nameEn:"Egypt", capital:"Le Caire", lang:"Arabe",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Berceau d'une des plus anciennes civilisations du monde le long du Nil, l'Égypte antique influence durablement l'histoire mondiale par ses pyramides, son écriture et son organisation étatique.", textEn:"Cradle of one of the world's oldest civilizations along the Nile, ancient Egypt shaped world history through its pyramids, writing system and state organization."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Passée sous domination ottomane puis influence britannique, l'Égypte devient un protectorat britannique au moment où les puissances européennes se disputent le contrôle du canal de Suez.", textEn:"Falling under Ottoman then British influence, Egypt became a British protectorate as European powers contested control of the Suez Canal."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"La crise de Suez en 1956 marque un tournant de la guerre froide, symbolisant le recul des puissances coloniales face aux nouvelles puissances américaine et soviétique.", textEn:"The 1956 Suez Crisis marked a turning point of the Cold War, symbolizing the decline of colonial powers against the new US and Soviet superpowers."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"L'Égypte devient une république en 1953 après le renversement de la monarchie, et connaît en 2011 une révolution qui marque le début du Printemps arabe.", textEn:"Egypt became a republic in 1953 after the monarchy was overthrown, and in 2011 underwent a revolution that sparked the Arab Spring."}]},
+  {id:"maroc", region:"nord", flag:"🇲🇦", name:"Maroc", nameEn:"Morocco", capital:"Rabat", lang:"Arabe",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le Maroc a vu se succéder plusieurs dynasties, dont les Almoravides et les Almohades, qui ont étendu leur influence jusqu'en Espagne (Al-Andalus).", textEn:"Morocco saw a succession of dynasties, including the Almoravids and Almohads, who extended their influence as far as Spain (Al-Andalus)."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Devenu protectorat français et espagnol en 1912, dans le cadre du partage colonial du continent, le pays conserve toutefois sa monarchie alaouite.", textEn:"Becoming a French and Spanish protectorate in 1912, part of the colonial partition of the continent, the country nonetheless retained its Alaouite monarchy."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Des soldats marocains participent aux côtés des Alliés lors de la Seconde Guerre mondiale, notamment en Italie ; le Maroc retrouve son indépendance en 1956.", textEn:"Moroccan soldiers fought alongside the Allies in World War II, notably in Italy; Morocco regained independence in 1956."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"La monarchie marocaine, l'une des plus anciennes dynasties encore régnantes au monde, poursuit depuis une politique de modernisation économique et diplomatique.", textEn:"The Moroccan monarchy, one of the oldest still-reigning dynasties in the world, has since pursued a policy of economic and diplomatic modernization."}]},
+  {id:"tunisie", region:"nord", flag:"🇹🇳", name:"Tunisie", nameEn:"Tunisia", capital:"Tunis", lang:"Arabe",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Héritière de l'ancienne Carthage, puissance méditerranéenne rivale de Rome dans l'Antiquité, la Tunisie a ensuite connu les dominations arabe, ottomane puis française.", textEn:"Heir to ancient Carthage, a Mediterranean power that rivaled Rome in antiquity, Tunisia later experienced Arab, Ottoman and French rule."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"La France y établit un protectorat en 1881, intégrant le pays aux réseaux économiques coloniaux européens de la Méditerranée.", textEn:"France established a protectorate in 1881, integrating the country into Europe's colonial Mediterranean economic networks."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Indépendante en 1956, la Tunisie s'inscrit dans le mouvement plus large de décolonisation qui traverse le monde durant la guerre froide.", textEn:"Independent since 1956, Tunisia was part of the broader wave of decolonization sweeping the world during the Cold War."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"En 2011, la révolution tunisienne déclenche le Printemps arabe, une vague de soulèvements qui touchera plusieurs pays du monde arabe.", textEn:"In 2011, the Tunisian revolution triggered the Arab Spring, a wave of uprisings that would spread across the Arab world."}]},
+  {id:"algerie", region:"nord", flag:"🇩🇿", name:"Algérie", nameEn:"Algeria", capital:"Alger", lang:"Arabe",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Terre de comptoirs berbères puis ottomans, l'Algérie devient au XIXe siècle la cible d'une colonisation de peuplement particulièrement intense de la part de la France.", textEn:"Home to Berber and later Ottoman trading posts, Algeria became in the 19th century the target of especially intense settler colonization by France."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Considérée juridiquement comme un prolongement du territoire français, l'Algérie voit s'installer plus d'un million de colons européens durant la période coloniale.", textEn:"Legally treated as an extension of French territory, Algeria saw over a million European settlers arrive during the colonial period."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"La guerre d'Algérie (1954-1962), l'un des conflits de décolonisation les plus marquants du XXe siècle, s'achève par l'indépendance du pays en 1962.", textEn:"The Algerian War (1954-1962), one of the 20th century's most significant decolonization conflicts, ended with the country's independence in 1962."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"L'Algérie devient un acteur influent du mouvement des non-alignés durant la guerre froide, avant de traverser une grave crise politique dans les années 1990.", textEn:"Algeria became an influential player in the Non-Aligned Movement during the Cold War, before going through a severe political crisis in the 1990s."}]},
+  {id:"kenya", region:"est", flag:"🇰🇪", name:"Kenya", nameEn:"Kenya", capital:"Nairobi", lang:"Anglais/Swahili",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"La région est depuis des siècles un carrefour commercial swahili reliant l'intérieur de l'Afrique de l'Est aux routes maritimes de l'océan Indien, jusqu'en Arabie et en Asie.", textEn:"For centuries, the region was a Swahili trading crossroads linking inland East Africa to Indian Ocean routes, as far as Arabia and Asia."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Colonie britannique à partir de 1920, le Kenya voit affluer des colons européens attirés par ses terres fertiles des hautes-terres.", textEn:"A British colony from 1920, Kenya saw an influx of European settlers drawn to its fertile highlands."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"La révolte des Mau Mau dans les années 1950 contre la domination coloniale précède l'indépendance obtenue en 1963 sous Jomo Kenyatta.", textEn:"The Mau Mau uprising in the 1950s against colonial rule preceded independence, achieved in 1963 under Jomo Kenyatta."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Depuis, le Kenya s'est imposé comme un pôle économique et technologique majeur de l'Afrique de l'Est, tout en traversant plusieurs crises électorales.", textEn:"Since then, Kenya has become a major economic and technology hub in East Africa, while going through several electoral crises."}]},
+  {id:"ethiopie", region:"est", flag:"🇪🇹", name:"Éthiopie", nameEn:"Ethiopia", capital:"Addis-Abeba", lang:"Amharique",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"L'Éthiopie est l'un des plus anciens États du monde, héritier du royaume d'Aksoum, et l'un des premiers à avoir adopté le christianisme comme religion d'État, au IVe siècle.", textEn:"Ethiopia is one of the world's oldest states, heir to the Kingdom of Aksum, and among the first in the world to adopt Christianity as a state religion, in the 4th century."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Elle repousse l'invasion italienne à la bataille d'Adoua en 1896, devenant le seul pays africain à n'avoir jamais été durablement colonisé, un événement retentissant à l'échelle mondiale.", textEn:"It repelled the Italian invasion at the Battle of Adwa in 1896, becoming the only African country never durably colonized — an event that resonated worldwide."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"L'Italie fasciste occupe brièvement le pays entre 1936 et 1941, avant sa libération pendant la Seconde Guerre mondiale grâce au soutien britannique.", textEn:"Fascist Italy briefly occupied the country from 1936 to 1941, before its liberation during World War II with British support."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Siège de l'Union africaine depuis 1963, l'Éthiopie a aussi connu une guerre civile, une famine majeure dans les années 1980, et des tensions internes plus récentes.", textEn:"Home to the African Union's headquarters since 1963, Ethiopia has also experienced civil war, a major famine in the 1980s, and more recent internal tensions."}]},
+  {id:"tanzanie", region:"est", flag:"🇹🇿", name:"Tanzanie", nameEn:"Tanzania", capital:"Dodoma", lang:"Swahili",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"La côte swahilie, avec des cités comme Kilwa, fut un centre prospère du commerce entre l'Afrique, le monde arabe et l'Asie dès le Moyen Âge.", textEn:"The Swahili coast, with cities like Kilwa, was a thriving hub of trade between Africa, the Arab world and Asia from the Middle Ages onward."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Zanzibar devient un centre majeur du commerce d'esclaves et d'épices sous domination omanaise, puis le Tanganyika passe sous administration allemande puis britannique.", textEn:"Zanzibar became a major center of the slave and spice trade under Omani rule, while Tanganyika passed under German then British administration."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Après la Première Guerre mondiale, l'Allemagne perd sa colonie au profit du Royaume-Uni ; le Tanganyika devient indépendant en 1961, Zanzibar en 1963.", textEn:"After World War I, Germany lost its colony to Britain; Tanganyika became independent in 1961, Zanzibar in 1963."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Les deux territoires fusionnent en 1964 pour former la Tanzanie, façonnée par la philosophie socialiste de l'Ujamaa portée par Julius Nyerere durant la guerre froide.", textEn:"The two territories merged in 1964 to form Tanzania, shaped by the socialist Ujamaa philosophy championed by Julius Nyerere during the Cold War."}]},
+  {id:"rwanda", region:"est", flag:"🇷🇼", name:"Rwanda", nameEn:"Rwanda", capital:"Kigali", lang:"Kinyarwanda/Français",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le royaume du Rwanda, structuré autour d'une monarchie centralisée, domine la région des Grands Lacs pendant plusieurs siècles avant la période coloniale.", textEn:"The Kingdom of Rwanda, built around a centralized monarchy, dominated the Great Lakes region for centuries before the colonial period."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Colonisé d'abord par l'Allemagne puis confié à la Belgique après la Première Guerre mondiale, le pays voit les autorités coloniales renforcer les divisions ethniques entre Hutu et Tutsi.", textEn:"Colonized first by Germany then handed to Belgium after World War I, the country saw colonial authorities reinforce ethnic divisions between Hutu and Tutsi."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Indépendant en 1962, le Rwanda connaît des tensions récurrentes qui culminent avec le génocide de 1994, l'une des tragédies les plus marquantes de la fin du XXe siècle.", textEn:"Independent in 1962, Rwanda experienced recurring tensions that culminated in the 1994 genocide, one of the most devastating tragedies of the late 20th century."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Depuis, le pays a engagé une reconstruction nationale rapide et s'impose comme un exemple de transformation économique et numérique sur le continent.", textEn:"Since then, the country has undertaken rapid national reconstruction and become an example of economic and digital transformation on the continent."}]},
+  {id:"rdcongo", region:"centrale", flag:"🇨🇩", name:"RD Congo", nameEn:"DR Congo", capital:"Kinshasa", lang:"Français",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le puissant royaume du Kongo domine la région dès le XIVe siècle, entretenant des relations diplomatiques directes avec le Portugal et le Vatican.", textEn:"The powerful Kingdom of Kongo dominated the region from the 14th century, maintaining direct diplomatic relations with Portugal and the Vatican."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Le roi belge Léopold II s'approprie personnellement le territoire comme « État indépendant du Congo » en 1885, y instaurant un système d'exploitation particulièrement brutal dénoncé dans le monde entier.", textEn:"Belgian King Leopold II personally appropriated the territory as the \"Congo Free State\" in 1885, imposing an especially brutal system of exploitation condemned worldwide."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Devenu colonie belge en 1908, le pays accède à l'indépendance en 1960 ; l'assassinat de son premier Premier ministre Patrice Lumumba en pleine guerre froide illustre les ingérences des grandes puissances.", textEn:"Becoming a Belgian colony in 1908, the country gained independence in 1960; the assassination of its first Prime Minister, Patrice Lumumba, amid the Cold War, illustrated great-power interference."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Le pays a depuis traversé plusieurs conflits armés dans l'est de son territoire, tout en abritant d'importantes ressources minières convoitées à l'échelle mondiale.", textEn:"The country has since experienced several armed conflicts in its eastern territory, while holding vast mineral resources coveted around the world."}]},
+  {id:"cameroun", region:"centrale", flag:"🇨🇲", name:"Cameroun", nameEn:"Cameroon", capital:"Yaoundé", lang:"Français/Anglais",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le territoire abrite divers royaumes et chefferies, dont les royaumes Bamoun et Bamiléké, réputés pour leur organisation politique et artistique.", textEn:"The territory was home to various kingdoms and chieftaincies, including the Bamoun and Bamileke kingdoms, known for their political and artistic organization."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Colonie allemande à partir de 1884, le Kamerun est partagé entre la France et le Royaume-Uni après la défaite allemande lors de la Première Guerre mondiale.", textEn:"A German colony from 1884, Kamerun was split between France and Britain after Germany's defeat in World War I."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Le pays connaît une guerre d'indépendance contre la France dans les années 1950-60 avant d'obtenir son indépendance en 1960.", textEn:"The country waged an independence war against France in the 1950s-60s before gaining independence in 1960."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Les parties francophone et anglophone se réunifient en 1961 ; le pays fait face depuis 2016 à une crise séparatiste dans ses régions anglophones.", textEn:"The French- and English-speaking parts reunified in 1961; since 2016 the country has faced a separatist crisis in its English-speaking regions."}]},
+  {id:"afriquedusud", region:"australe", flag:"🇿🇦", name:"Afrique du Sud", nameEn:"South Africa", capital:"Pretoria", lang:"Anglais/Afrikaans/Zoulou",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"La région est peuplée depuis des millénaires par les peuples San, Khoikhoi puis bantous, avant l'arrivée de colons néerlandais au Cap en 1652.", textEn:"The region has been inhabited for millennia by the San, Khoikhoi and Bantu peoples, before Dutch settlers arrived at the Cape in 1652."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Les Britanniques prennent le contrôle du Cap au début du XIXe siècle ; la découverte d'or et de diamants attire des investisseurs du monde entier et intensifie les tensions coloniales.", textEn:"The British took control of the Cape in the early 19th century; the discovery of gold and diamonds attracted investors from around the world and heightened colonial tensions."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"L'apartheid, système de ségrégation raciale institutionnalisé en 1948, fait l'objet de condamnations internationales croissantes pendant toute la guerre froide.", textEn:"Apartheid, a system of institutionalized racial segregation established in 1948, drew growing international condemnation throughout the Cold War."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Après des décennies de lutte, l'Afrique du Sud tient ses premières élections multiraciales en 1994, portant Nelson Mandela à la présidence, un événement suivi dans le monde entier.", textEn:"After decades of struggle, South Africa held its first multiracial elections in 1994, bringing Nelson Mandela to the presidency, an event followed around the world."}]},
+  {id:"zimbabwe", region:"australe", flag:"🇿🇼", name:"Zimbabwe", nameEn:"Zimbabwe", capital:"Harare", lang:"Anglais",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le site de Great Zimbabwe témoigne d'un royaume prospère et bâtisseur entre le XIe et le XVe siècle, dont le nom du pays moderne est directement hérité.", textEn:"The Great Zimbabwe site testifies to a prosperous, monument-building kingdom between the 11th and 15th centuries, from which the modern country takes its name."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"La région devient la colonie britannique de Rhodésie du Sud à la fin du XIXe siècle, administrée par la British South Africa Company de Cecil Rhodes.", textEn:"The region became the British colony of Southern Rhodesia in the late 19th century, administered by Cecil Rhodes's British South Africa Company."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"La minorité blanche proclame unilatéralement son indépendance en 1965 pour préserver son pouvoir, entraînant des sanctions internationales pendant la guerre froide.", textEn:"The white minority unilaterally declared independence in 1965 to preserve its power, drawing international sanctions during the Cold War."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Après une longue guerre de libération, le pays obtient une indépendance reconnue en 1980 sous Robert Mugabe, avant de traverser de graves crises économiques.", textEn:"After a long liberation war, the country achieved internationally recognized independence in 1980 under Robert Mugabe, before going through severe economic crises."}]},
+  {id:"botswana", region:"australe", flag:"🇧🇼", name:"Botswana", nameEn:"Botswana", capital:"Gaborone", lang:"Anglais/Tswana",
+   timeline:[{period:"Avant la colonisation", periodEn:"Before colonization", text:"Le territoire est historiquement peuplé par les Tswana, organisés en plusieurs royaumes, ainsi que par les San, l'un des plus anciens peuples d'Afrique australe.", textEn:"The territory was historically home to the Tswana, organized into several kingdoms, as well as the San, one of the oldest peoples in southern Africa."}, {period:"Colonisation et traite", periodEn:"Colonization", text:"Les chefs tswana obtiennent en 1885 la protection britannique contre les visées d'annexion de la colonie voisine, devenant le protectorat du Bechuanaland plutôt qu'une colonie de peuplement.", textEn:"Tswana chiefs secured British protection in 1885 against annexation threats from a neighboring colony, becoming the Bechuanaland Protectorate rather than a settler colony."}, {period:"Guerres mondiales & indépendance", periodEn:"World wars & independence", text:"Le pays accède à l'indépendance en 1966 en pleine décolonisation mondiale, peu après la découverte de diamants qui transformera son économie.", textEn:"The country gained independence in 1966 amid global decolonization, shortly before the discovery of diamonds that would transform its economy."}, {period:"Depuis l'indépendance", periodEn:"Since independence", text:"Le Botswana est depuis souvent cité comme un modèle de stabilité démocratique et de gestion prudente de ses ressources, contrastant avec d'autres trajectoires régionales.", textEn:"Botswana has since often been cited as a model of democratic stability and prudent resource management, in contrast to other regional trajectories."}]},
+];
+const newsSamples = [
+  {country:"senegal", cat:"actualite", title:"Coopération régionale : un sommet ouest-africain annoncé à Dakar", source:"Le Soleil (exemple)", url:"https://www.lesoleil.sn", icon:"government", summary:"Résumé auto-généré : plusieurs chefs d'État de la sous-région se réuniraient prochainement à Dakar pour discuter de coopération économique et sécuritaire."},
+  {country:"senegal", cat:"innovation", title:"Une pousse tech dakaroise lève des fonds pour l'agriculture connectée", source:"Jeune Afrique (exemple)", url:"https://www.jeuneafrique.com", icon:"leaf", summary:"Résumé auto-généré : une startup sénégalaise spécialisée dans les capteurs agricoles annonce une levée de fonds pour équiper des coopératives locales."},
+  {country:"nigeria", cat:"actualite", title:"Lagos annonce un nouveau plan de transport urbain", source:"Punch (exemple)", url:"https://punchng.com", icon:"bus", summary:"Résumé auto-généré : les autorités de Lagos présentent un plan visant à réduire les embouteillages via de nouvelles lignes de bus rapides."},
+  {country:"nigeria", cat:"innovation", title:"L'essor de la fintech nigériane attire les investisseurs internationaux", source:"TechCabal (exemple)", url:"https://techcabal.com", icon:"coin", summary:"Résumé auto-généré : plusieurs fonds étrangers renforcent leurs investissements dans les services financiers mobiles nigérians."},
+  {country:"egypte", cat:"histoire", title:"Rétrospective : la construction du barrage d'Assouan", source:"Al-Ahram (exemple)", url:"https://english.ahram.org.eg", icon:"dam", summary:"Résumé auto-généré : retour sur les étapes clés de la construction du haut barrage d'Assouan et son impact sur le pays."},
+  {country:"egypte", cat:"documentation", title:"Dossier : les fouilles archéologiques récentes à Louxor", source:"Al-Ahram (exemple)", url:"https://english.ahram.org.eg", icon:"column", summary:"Résumé auto-généré : une nouvelle campagne de fouilles met au jour des vestiges datant du Nouvel Empire près de Louxor."},
+  {country:"kenya", cat:"innovation", title:"Nairobi confirme son statut de pôle technologique régional", source:"Daily Nation (exemple)", url:"https://nation.africa", icon:"laptop", summary:"Résumé auto-généré : plusieurs entreprises technologiques annoncent l'ouverture de bureaux régionaux à Nairobi."},
+  {country:"afriquedusud", cat:"histoire", title:"30 ans après : retour sur les élections de 1994", source:"Mail & Guardian (exemple)", url:"https://mg.co.za", icon:"ballot", summary:"Résumé auto-généré : un dossier revient sur le déroulement des premières élections multiraciales et leur héritage."},
+  {country:"ethiopie", cat:"actualite", title:"L'Union africaine ouvre sa session annuelle à Addis-Abeba", source:"Ethiopian Herald (exemple)", url:"https://www.press.et", icon:"globe", summary:"Résumé auto-généré : les chefs d'État membres de l'Union africaine se réunissent pour leur sommet annuel à Addis-Abeba."},
+  {country:"maroc", cat:"documentation", title:"Dossier patrimoine : les médinas classées à l'UNESCO", source:"Le Matin (exemple)", url:"https://lematin.ma", icon:"arch", summary:"Résumé auto-généré : un dossier présente les médinas marocaines inscrites au patrimoine mondial et les efforts de préservation en cours."},
+  {country:"ghana", cat:"histoire", title:"Kwame Nkrumah et la naissance du panafricanisme moderne", source:"Daily Graphic (exemple)", url:"https://www.graphic.com.gh", icon:"monument", summary:"Résumé auto-généré : retour sur le rôle de Kwame Nkrumah dans la fondation du mouvement panafricaniste après l'indépendance."},
+  {country:"rdcongo", cat:"actualite", title:"Kinshasa annonce un plan d'électrification de nouveaux quartiers", source:"Le Potentiel (exemple)", url:"https://lepotentiel.cd", icon:"pylon", summary:"Résumé auto-généré : le gouvernement présente un calendrier d'extension du réseau électrique vers plusieurs quartiers périphériques de Kinshasa."},
+];
+
+/* icon library — each icon visually represents the article's real subject */
+const ICONS = {
+  government: `<line x1="24" y1="6" x2="6" y2="16"/><line x1="24" y1="6" x2="42" y2="16"/><line x1="6" y1="16" x2="42" y2="16"/><line x1="10" y1="16" x2="10" y2="36"/><line x1="18" y1="16" x2="18" y2="36"/><line x1="30" y1="16" x2="30" y2="36"/><line x1="38" y1="16" x2="38" y2="36"/><line x1="6" y1="36" x2="42" y2="36"/><line x1="4" y1="41" x2="44" y2="41"/>`,
+  leaf: `<path d="M12 40 C10 24 18 10 37 8 C35 26 24 36 12 40 Z"/><line x1="15" y1="36" x2="31" y2="14"/>`,
+  bus: `<rect x="6" y="14" width="36" height="18" rx="3"/><line x1="6" y1="23" x2="42" y2="23"/><line x1="14" y1="14" x2="14" y2="32"/><line x1="34" y1="14" x2="34" y2="32"/><circle cx="14" cy="36" r="3"/><circle cx="34" cy="36" r="3"/>`,
+  coin: `<circle cx="18" cy="30" r="10"/><circle cx="28" cy="18" r="10"/>`,
+  dam: `<rect x="6" y="8" width="7" height="30"/><line x1="13" y1="14" x2="42" y2="14"/><path d="M6 24 Q13 20 20 24 T34 24 T42 24"/><path d="M6 32 Q13 28 20 32 T34 32 T42 32"/>`,
+  column: `<line x1="10" y1="12" x2="10" y2="36"/><line x1="20" y1="12" x2="20" y2="36"/><line x1="30" y1="12" x2="30" y2="36"/><line x1="38" y1="12" x2="38" y2="36"/><line x1="6" y1="8" x2="42" y2="8"/><line x1="4" y1="40" x2="44" y2="40"/>`,
+  laptop: `<rect x="10" y="12" width="28" height="18" rx="1.5"/><line x1="5" y1="34" x2="43" y2="34"/><line x1="18" y1="34" x2="30" y2="34"/>`,
+  ballot: `<rect x="9" y="18" width="30" height="20" rx="2"/><line x1="17" y1="18" x2="31" y2="18"/><path d="M19 9 L29 9 L29 19 L19 19 Z"/>`,
+  globe: `<circle cx="24" cy="24" r="16"/><ellipse cx="24" cy="24" rx="7" ry="16"/><line x1="8" y1="24" x2="40" y2="24"/><line x1="10" y1="17" x2="38" y2="17"/><line x1="10" y1="31" x2="38" y2="31"/>`,
+  arch: `<path d="M13 40 V23 A11 11 0 0 1 35 23 V40"/><path d="M18 40 V24 A6 6 0 0 1 30 24 V40"/>`,
+  monument: `<line x1="24" y1="6" x2="24" y2="33"/><path d="M24 6 L19 15 H29 Z"/><rect x="13" y="33" width="22" height="7"/>`,
+  pylon: `<line x1="24" y1="6" x2="10" y2="41"/><line x1="24" y1="6" x2="38" y2="41"/><line x1="14" y1="24" x2="34" y2="24"/><line x1="17" y1="33" x2="31" y2="33"/><path d="M22 15 L27 15 L21 25 L26 25 L20 36" stroke-width="1.3"/>`,
+};
+function iconSvg(name){
+  return `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]||ICONS.globe}</svg>`;
+}
+
+/* render ticker */
+function renderTicker(){
+  const list = document.getElementById("tickerList");
+  list.innerHTML = "";
+  newsSamples.slice(0,4).forEach(n=>{
+    const c = countries.find(c=>c.id===n.country);
+    const div = document.createElement("div");
+    div.className = "ticker-item";
+    div.innerHTML = `<span class="ticker-thumb img-${n.cat}">${iconSvg(n.icon)}<span class="mini-flag">${c.flag}</span></span>
+      <div><strong>${n.title}</strong><span class="meta">${n.source}</span></div>`;
+    list.appendChild(div);
+  });
+}
+
+/* render news grid with filter */
+let activeCat = "all";
+function renderNews(){
+  const grid = document.getElementById("newsGrid");
+  grid.innerHTML = "";
+  const filtered = activeCat==="all" ? newsSamples : newsSamples.filter(n=>n.cat===activeCat);
+  filtered.forEach(n=>{
+    const c = countries.find(c=>c.id===n.country);
+    const cname = currentLang==="en" ? c.nameEn : c.name;
+    const catLabel = dict[currentLang]["filter"+n.cat.charAt(0).toUpperCase()+n.cat.slice(1,4)] || n.cat;
+    const div = document.createElement("div");
+    div.className = "news-card";
+    div.innerHTML = `
+      <div class="card-image img-${n.cat}">
+        ${iconSvg(n.icon)}
+        <span class="cat-tag cat-${n.cat}">${catLabelFor(n.cat)}</span>
+        <span class="flag-badge">${c.flag}</span>
+      </div>
+      <div class="card-body">
+        <h3>${n.title}</h3>
+        <p class="ai-summary">${n.summary}</p>
+        <div class="source-line">${cname} · ${n.source}</div>
+        <a class="read-original" href="${n.url}" target="_blank" rel="noopener noreferrer">${dict[currentLang].readFull}</a>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+function catLabelFor(cat){
+  const map = {actualite:"filterActu", documentation:"filterDoc", innovation:"filterInno", histoire:"filterHist"};
+  return dict[currentLang][map[cat]];
+}
+document.querySelectorAll("#newsFilters .pill").forEach(p=>{
+  p.addEventListener("click", ()=>{
+    document.querySelectorAll("#newsFilters .pill").forEach(x=>x.classList.remove("active"));
+    p.classList.add("active");
+    activeCat = p.dataset.cat;
+    renderNews();
+  });
+});
+
+/* render regions + countries */
+const regions = [
+  {id:"all", fr:"Toutes les régions", en:"All regions"},
+  {id:"ouest", fr:"Afrique de l'Ouest", en:"West Africa"},
+  {id:"nord", fr:"Afrique du Nord", en:"North Africa"},
+  {id:"est", fr:"Afrique de l'Est", en:"East Africa"},
+  {id:"centrale", fr:"Afrique Centrale", en:"Central Africa"},
+  {id:"australe", fr:"Afrique Australe", en:"Southern Africa"},
+];
+let activeRegion = "all";
+function renderRegionTabs(){
+  const wrap = document.getElementById("regionTabs");
+  wrap.innerHTML = "";
+  regions.forEach(r=>{
+    const btn = document.createElement("button");
+    btn.className = "region-tab" + (r.id===activeRegion ? " active" : "");
+    btn.textContent = currentLang==="en" ? r.en : r.fr;
+    btn.onclick = ()=>{ activeRegion = r.id; renderRegionTabs(); renderCountries(); };
+    wrap.appendChild(btn);
+  });
+}
+function renderCountries(){
+  renderRegionTabs();
+  const grid = document.getElementById("countryGrid");
+  grid.innerHTML = "";
+  const list = activeRegion==="all" ? countries : countries.filter(c=>c.region===activeRegion);
+  list.forEach(c=>{
+    const card = document.createElement("button");
+    card.className = "country-card";
+    card.innerHTML = `<span class="flag">${c.flag}</span>
+      <h4>${currentLang==="en"?c.nameEn:c.name}</h4>
+      <span class="cap">${c.capital}</span>`;
+    card.onclick = ()=>openDetail(c.id);
+    grid.appendChild(card);
+  });
+}
+
+/* detail overlay */
+function openDetail(id){
+  const c = countries.find(c=>c.id===id);
+  document.getElementById("dFlag").textContent = c.flag;
+  document.getElementById("dName").textContent = currentLang==="en" ? c.nameEn : c.name;
+  document.getElementById("dMeta").textContent =
+    `${dict[currentLang].capitalLabel}: ${c.capital}  ·  ${dict[currentLang].langLabel}: ${c.lang}`;
+  const histWrap = document.getElementById("dHistory");
+  histWrap.innerHTML = "";
+  c.timeline.forEach(era=>{
+    const item = document.createElement("div");
+    item.className = "timeline-item";
+    const period = currentLang==="en" ? era.periodEn : era.period;
+    const text = currentLang==="en" ? era.textEn : era.text;
+    item.innerHTML = `<span class="tl-period">${period}</span><p>${text}</p>`;
+    histWrap.appendChild(item);
+  });
+  const newsWrap = document.getElementById("dNews");
+  newsWrap.innerHTML = "";
+  const related = newsSamples.filter(n=>n.country===id);
+  if(related.length===0){
+    const p = document.createElement("p");
+    p.style.color = "var(--ink-faint)"; p.style.fontSize = "14px";
+    p.textContent = currentLang==="en" ? "No sample news for this country yet." : "Pas encore d'actualité d'exemple pour ce pays.";
+    newsWrap.appendChild(p);
+  } else {
+    related.forEach(n=>{
+      const row = document.createElement("div");
+      row.className = "detail-news-item";
+      row.innerHTML = `
+        <div class="detail-news-thumb img-${n.cat}">
+          ${iconSvg(n.icon)}
+          <span class="mini-flag">${countries.find(c=>c.id===n.country).flag}</span>
+        </div>
+        <div style="flex:1">
+          <div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:6px;">
+            <strong style="font-size:14px">${n.title}</strong>
+            <span class="cat-tag cat-${n.cat}">${catLabelFor(n.cat)}</span>
+          </div>
+          <p class="ai-summary" style="margin-bottom:6px">${n.summary}</p>
+          <a class="read-original" style="border-top:none; padding-top:0" href="${n.url}" target="_blank" rel="noopener noreferrer">${dict[currentLang].readFull} — ${n.source}</a>
+        </div>`;
+      newsWrap.appendChild(row);
+    });
+  }
+  document.getElementById("overlay").classList.add("open");
+}
+function closeDetail(){ document.getElementById("overlay").classList.remove("open"); }
+
+/* init */
+renderTicker();
+renderNews();
+renderCountries();
+</script>
+</body>
+</html>
